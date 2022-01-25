@@ -1,7 +1,7 @@
 import './styles/App.scss';
 import styled from 'styled-components';
 import SingleCard from './components/SingleCard';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const cardImages = [
   { src: '/img/helmet-1.png' },
@@ -15,6 +15,8 @@ const cardImages = [
 function App() {
   const [cards, setCards] = useState([]);
   const [turns, setTurns] = useState(0);
+  const [choiceOne, setChoiceOne] = useState(null);
+  const [choiceTwo, setChoiceTwo] = useState(null);
 
   // shuffle cards
   const shuffleCards = () => {
@@ -25,16 +27,45 @@ function App() {
     setCards(shuffledCards);
     setTurns(0);
   };
-  console.log(cards, turns);
+
+  // handle a choice
+  const handleChoice = (card) => {
+    choiceOne ? setChoiceTwo(card) : setChoiceOne(card);
+  };
+
+  // compare 2 selected cards
+
+  useEffect(
+    (card) => {
+      if (choiceOne && choiceTwo) {
+        if (choiceOne.src === choiceTwo.src) {
+          console.log("it's the same");
+          resetTurn();
+        } else {
+          console.log('cards do not match');
+          resetTurn();
+        }
+      }
+    },
+    [choiceOne, choiceTwo]
+  );
+
+  // reset cards and increase turn
+  const resetTurn = () => {
+    setChoiceOne(null);
+    setChoiceTwo(null);
+    setTurns(turns + 1);
+  };
 
   return (
     <div className='App'>
       <h1>Magic Match</h1>
       <button onClick={shuffleCards}>New Game</button>
+      {turns}
 
       <StyledGrid>
         {cards.map((card) => (
-          <SingleCard key={card.id} card={card} />
+          <SingleCard key={card.id} card={card} handleChoice={handleChoice} />
         ))}
       </StyledGrid>
     </div>
