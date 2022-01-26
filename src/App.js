@@ -4,12 +4,12 @@ import SingleCard from './components/SingleCard';
 import { useState, useEffect } from 'react';
 
 const cardImages = [
-  { src: '/img/helmet-1.png' },
-  { src: '/img/potion-1.png' },
-  { src: '/img/ring-1.png' },
-  { src: '/img/scroll-1.png' },
-  { src: '/img/shield-1.png' },
-  { src: '/img/sword-1.png' },
+  { src: '/img/helmet-1.png', matched: false },
+  { src: '/img/potion-1.png', matched: false },
+  { src: '/img/ring-1.png', matched: false },
+  { src: '/img/scroll-1.png', matched: false },
+  { src: '/img/shield-1.png', matched: false },
+  { src: '/img/sword-1.png', matched: false },
 ];
 
 function App() {
@@ -39,16 +39,26 @@ function App() {
     (card) => {
       if (choiceOne && choiceTwo) {
         if (choiceOne.src === choiceTwo.src) {
-          console.log("it's the same");
+          setCards((cards) => {
+            return cards.map((card) => {
+              if (card.src === choiceOne.src) {
+                return { ...card, matched: true };
+              } else {
+                return card;
+              }
+            });
+          });
+
           resetTurn();
         } else {
-          console.log('cards do not match');
-          resetTurn();
+          setTimeout(() => resetTurn(), 2000);
         }
       }
     },
     [choiceOne, choiceTwo]
   );
+
+  console.log(cards);
 
   // reset cards and increase turn
   const resetTurn = () => {
@@ -56,6 +66,8 @@ function App() {
     setChoiceTwo(null);
     setTurns(turns + 1);
   };
+
+  console.log();
 
   return (
     <div className='App'>
@@ -65,7 +77,12 @@ function App() {
 
       <StyledGrid>
         {cards.map((card) => (
-          <SingleCard key={card.id} card={card} handleChoice={handleChoice} />
+          <SingleCard
+            key={card.id}
+            card={card}
+            handleChoice={handleChoice}
+            flipped={card === choiceOne || card === choiceTwo || card.matched}
+          />
         ))}
       </StyledGrid>
     </div>
