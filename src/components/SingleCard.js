@@ -1,30 +1,63 @@
 import styled from 'styled-components';
 
-function SingleCard({ card, handleChoice }) {
+function SingleCard({ card, handleChoice, flipped }) {
   const handleClick = () => {
     handleChoice(card);
   };
 
   return (
     <StyledCard>
-      <div>
-        <img className='front' src={card.src} alt='card front' />
-        <img
-          className='back'
-          src='/img/cover.png'
-          onClick={handleClick}
-          alt='card back'
-        />
+      <div className={flipped ? 'flipped' : ''}>
+        <div className='card'>
+          <img className='front' src={card.src} alt='card front' />
+          <img
+            className='back'
+            src='/img/cover.png'
+            onClick={handleClick}
+            alt='card back'
+          />
+        </div>
       </div>
     </StyledCard>
   );
 }
 
 const StyledCard = styled.div`
-  width: 100%;
-  display: block;
-  border: 2px solid #fff;
-  border-radius: 6px;
+  .card {
+    position: relative;
+    width: 100%;
+    display: block;
+
+    img {
+      border: 2px solid #fff;
+      border-radius: 6px;
+    }
+  }
+
+  // front of card
+
+  .card .front {
+    transform: rotateY(90deg);
+    transition: all ease-in 0.2s;
+    position: absolute;
+  }
+
+  .flipped .front {
+    transform: rotateY(0deg);
+    transition-delay: 0.2s;
+  }
+
+  // back of card
+
+  .card .back {
+    transition: all ease-in 0.2s;
+    transition-delay: 0.2s;
+  }
+
+  .flipped .back {
+    transform: rotateY(90deg);
+    transition-delay: 0s;
+  }
 `;
 
 export default SingleCard;
