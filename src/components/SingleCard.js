@@ -1,21 +1,27 @@
 import styled from 'styled-components';
 
-function SingleCard({ card, handleChoice, flipped }) {
+function SingleCard({ card, handleChoice, flipped, disabled, matched }) {
   const handleClick = () => {
-    handleChoice(card);
+    if (!disabled) {
+      handleChoice(card);
+    }
   };
 
   return (
     <StyledCard>
       <div className={flipped ? 'flipped' : ''}>
-        <div className='card'>
-          <img className='front' src={card.src} alt='card front' />
-          <img
-            className='back'
-            src='/img/cover.png'
-            onClick={handleClick}
-            alt='card back'
-          />
+        <div className={disabled ? 'disabled' : ''}>
+          <div className={matched ? 'matched' : ''}>
+            <div className='card'>
+              <img className='front' src={card.src} alt='card front' />
+              <img
+                className='back'
+                src='/img/cover.png'
+                onClick={handleClick}
+                alt='card back'
+              />
+            </div>
+          </div>
         </div>
       </div>
     </StyledCard>
@@ -31,6 +37,25 @@ const StyledCard = styled.div`
     img {
       border: 2px solid #fff;
       border-radius: 6px;
+    }
+  }
+
+  // matched cards
+
+  .matched {
+    animation-duration: 0.7s;
+    animation-name: matched-anim;
+    animation-timing-function: ease-out;
+    animation-delay: 300ms;
+  }
+
+  @keyframes matched-anim {
+    from {
+      transform: scale(1);
+    }
+
+    90% {
+      transform: scale(1.15);
     }
   }
 
