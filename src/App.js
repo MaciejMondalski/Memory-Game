@@ -17,6 +17,7 @@ function App() {
   const [turns, setTurns] = useState(0);
   const [choiceOne, setChoiceOne] = useState(null);
   const [choiceTwo, setChoiceTwo] = useState(null);
+  const [disabled, setDisabled] = useState(false);
 
   // shuffle cards
   const shuffleCards = () => {
@@ -26,6 +27,8 @@ function App() {
 
     setCards(shuffledCards);
     setTurns(0);
+    setChoiceOne(null);
+    setChoiceTwo(null);
   };
 
   // handle a choice
@@ -38,6 +41,7 @@ function App() {
   useEffect(
     (card) => {
       if (choiceOne && choiceTwo) {
+        setDisabled(true);
         if (choiceOne.src === choiceTwo.src) {
           setCards((cards) => {
             return cards.map((card) => {
@@ -51,7 +55,7 @@ function App() {
 
           resetTurn();
         } else {
-          setTimeout(() => resetTurn(), 2000);
+          setTimeout(() => resetTurn(), 1100);
         }
       }
     },
@@ -65,15 +69,17 @@ function App() {
     setChoiceOne(null);
     setChoiceTwo(null);
     setTurns(turns + 1);
+    setDisabled(false);
   };
 
-  console.log();
+  useEffect(() => {
+    shuffleCards();
+  }, []);
 
   return (
     <div className='App'>
-      <h1>Magic Match</h1>
+      <h1>Memory Game</h1>
       <button onClick={shuffleCards}>New Game</button>
-      {turns}
 
       <StyledGrid>
         {cards.map((card) => (
@@ -82,9 +88,12 @@ function App() {
             card={card}
             handleChoice={handleChoice}
             flipped={card === choiceOne || card === choiceTwo || card.matched}
+            disabled={disabled}
+            matched={card.matched}
           />
         ))}
       </StyledGrid>
+      <p>Turns: {turns}</p>
     </div>
   );
 }
