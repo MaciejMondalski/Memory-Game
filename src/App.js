@@ -31,6 +31,7 @@ function App() {
     setTurns(0);
     setChoiceOne(null);
     setChoiceTwo(null);
+    setShowPopup(false);
   };
 
   // handle a choice
@@ -57,7 +58,7 @@ function App() {
 
           resetTurn();
         } else {
-          setTimeout(() => resetTurn(), 900);
+          setTimeout(() => resetTurn(), 700);
         }
       }
     },
@@ -87,33 +88,59 @@ function App() {
 
   return (
     <div className='App'>
-      <h1>Memory Game</h1>
-      <button onClick={shuffleCards}>New Game</button>
-
-      <StyledGrid>
-        {cards.map((card) => (
-          <SingleCard
-            key={card.id}
-            card={card}
-            handleChoice={handleChoice}
-            flipped={card === choiceOne || card === choiceTwo || card.matched}
-            disabled={disabled}
-            matched={card.matched}
-          />
-        ))}
-        {showPopup && <Popup />}
-      </StyledGrid>
-      <p>Turns: {turns}</p>
+      <StyledPage>
+        <div id={showPopup && 'dim'}>
+          <h1>Memory Game</h1>
+          <button onClick={shuffleCards}>New Game</button>
+        </div>
+        <div className='cards-wrapper'>
+          <div id={showPopup && 'dim'} className='cards'>
+            {cards.map((card) => (
+              <SingleCard
+                key={card.id}
+                card={card}
+                handleChoice={handleChoice}
+                flipped={
+                  card === choiceOne || card === choiceTwo || card.matched
+                }
+                disabled={disabled}
+                matched={card.matched}
+              />
+            ))}
+          </div>
+          {showPopup && <Popup shuffleCards={shuffleCards} turns={turns} />}
+        </div>
+        <p id={showPopup && 'dim'}>Turns: {turns}</p>
+      </StyledPage>
     </div>
   );
 }
 
-const StyledGrid = styled.div`
-  position: relative;
-  margin-top: 40px;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr;
-  grid-gap: 20px;
+const StyledPage = styled.div`
+  #dim {
+    opacity: 0.4;
+    animation-duration: 4s;
+    animation-name: example;
+  }
+  @keyframes example {
+    from {
+      opacity: 1;
+    }
+    to {
+      opacity: 0.4;
+    }
+  }
+
+  .cards-wrapper {
+    position: relative;
+  }
+
+  .cards {
+    margin-top: 40px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    grid-gap: 20px;
+  }
 `;
 
 export default App;
