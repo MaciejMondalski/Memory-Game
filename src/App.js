@@ -1,7 +1,8 @@
 import './styles/App.scss';
 import styled from 'styled-components';
 import SingleCard from './components/SingleCard';
-import { useState, useEffect } from 'react';
+import Popup from './components/Popup';
+import { useState, useEffect, useCallback } from 'react';
 
 const cardImages = [
   { src: '/img/helmet-1.png', matched: false },
@@ -18,6 +19,7 @@ function App() {
   const [choiceOne, setChoiceOne] = useState(null);
   const [choiceTwo, setChoiceTwo] = useState(null);
   const [disabled, setDisabled] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
 
   // shuffle cards
   const shuffleCards = () => {
@@ -55,13 +57,19 @@ function App() {
 
           resetTurn();
         } else {
-          setTimeout(() => resetTurn(), 1100);
+          setTimeout(() => resetTurn(), 900);
         }
       }
     },
     [choiceOne, choiceTwo]
   );
 
+  // Show Popup when all cards are matched
+  useEffect(() => {
+    if (!cards.some((e) => e.matched === false)) {
+      setShowPopup(true);
+    }
+  }, [cards]);
   console.log(cards);
 
   // reset cards and increase turn
@@ -74,6 +82,7 @@ function App() {
 
   useEffect(() => {
     shuffleCards();
+    setShowPopup(false);
   }, []);
 
   return (
@@ -92,6 +101,7 @@ function App() {
             matched={card.matched}
           />
         ))}
+        {showPopup && <Popup />}
       </StyledGrid>
       <p>Turns: {turns}</p>
     </div>
@@ -99,6 +109,7 @@ function App() {
 }
 
 const StyledGrid = styled.div`
+  position: relative;
   margin-top: 40px;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
