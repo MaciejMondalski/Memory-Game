@@ -14,12 +14,7 @@ function SingleCard({ card, handleChoice, flipped, disabled, matched }) {
           <div className={matched ? 'matched' : ''}>
             <div className='card'>
               <img className='front' src={card.src} alt='card front' />
-              <img
-                className='back'
-                src='/img/cover.png'
-                onClick={handleClick}
-                alt='card back'
-              />
+              <div className='back' onClick={handleClick} alt='card back'></div>
             </div>
           </div>
         </div>
@@ -30,32 +25,53 @@ function SingleCard({ card, handleChoice, flipped, disabled, matched }) {
 
 const StyledCard = styled.div`
   .card {
-    position: relative;
     width: 100%;
     display: block;
+    position: relative;
 
     img {
+      position: absolute;
       border: 2px solid #fff;
-      border-radius: 6px;
+      border-radius: 10px;
+      width: 200px;
+      height: 200px;
+      top: 0%;
+      left: 0%;
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+      backdrop-filter: blur(4px);
+    }
+
+    .back {
+      height: 200px;
+      width: 200px;
+      background: linear-gradient(
+        30deg,
+        rgba(69, 162, 224, 1) 0%,
+        rgba(178, 222, 253, 1) 100%
+      );
+      box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+      backdrop-filter: blur(4px);
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.18);
     }
   }
 
   // matched cards
 
   .matched {
-    animation-duration: 0.7s;
+    animation-duration: 0.5s;
     animation-name: matched-anim;
     animation-timing-function: ease-out;
     animation-delay: 300ms;
   }
 
   @keyframes matched-anim {
-    from {
+    0% {
       transform: scale(1);
     }
 
-    90% {
-      transform: scale(1.15);
+    70% {
+      transform: scale(1.1);
     }
   }
 
@@ -75,7 +91,7 @@ const StyledCard = styled.div`
   // back of card
 
   .card .back {
-    transition: all ease-in 0.2s;
+    transition: ease-in 0.2s;
     transition-delay: 0.2s;
   }
 
