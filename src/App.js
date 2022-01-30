@@ -133,6 +133,10 @@ const StyledPage = styled.div`
     }
   }
 
+  h1 {
+    font-size: 64px;
+  }
+
   .cards-wrapper {
     position: relative;
   }
