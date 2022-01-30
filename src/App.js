@@ -2,6 +2,7 @@ import './styles/App.scss';
 import styled from 'styled-components';
 import SingleCard from './components/SingleCard';
 import Popup from './components/Popup';
+import Footer from './components/Footer';
 import { useState, useEffect, useCallback } from 'react';
 
 const cardImages = [
@@ -111,6 +112,7 @@ function App() {
           {showPopup && <Popup shuffleCards={shuffleCards} turns={turns} />}
         </div>
         <p id={showPopup && 'dim'}>Turns: {turns}</p>
+        <Footer />
       </StyledPage>
     </div>
   );
