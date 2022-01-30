@@ -28,6 +28,10 @@ const StyledPopup = styled.div`
   flex-direction: column;
   justify-content: center;
 
+  h1 {
+    font-size: 56px;
+  }
+
   // Popup animation
   animation: fadeInAnimation ease 2s;
 
