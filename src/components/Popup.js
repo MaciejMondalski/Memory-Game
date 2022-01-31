@@ -5,7 +5,7 @@ function Popup({ shuffleCards, turns }) {
     <>
       <StyledPopup>
         <div className='content'>
-          <h1>Congratulations!</h1>
+          <h2>Congratulations!</h2>
           <p>You did it in {turns} turns.</p>
           <button onClick={shuffleCards}>New Game</button>
         </div>
