@@ -9,12 +9,13 @@ function Footer() {
 }
 
 const StyledFooter = styled.footer`
-  position: fixed;
+  color: white;
   left: 0;
   bottom: 0;
   width: 100%;
-  color: white;
-  text-align: flex-end;
+  font-size: 1rem;
+  justify-self: flex-end;
+  margin-top: auto;
 `;
 
 export default Footer;

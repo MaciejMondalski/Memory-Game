@@ -112,8 +112,8 @@ function App() {
           {showPopup && <Popup shuffleCards={shuffleCards} turns={turns} />}
         </div>
         <p id={showPopup && 'dim'}>Turns: {turns}</p>
-        <Footer />
       </StyledPage>
+      <Footer />
     </div>
   );
 }
